@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: syncimagejob
+  namespace: devops
+spec:
+  backoffLimit: 5
+  parallelism: 1
+  completions: 1
+  template:
+    spec:
+      containers:
+        - name: syncimagejob
+          image: syncimagejob:2021081716
+          imagePullPolicy: IfNotPresent
+      restartPolicy: OnFailure
+      hostAliases:
+        - ip: 10.90.96.110
+          hostnames:
+            - new.hub
+        - ip: 10.0.5.26
+          hostnames:
+            - old.hub
